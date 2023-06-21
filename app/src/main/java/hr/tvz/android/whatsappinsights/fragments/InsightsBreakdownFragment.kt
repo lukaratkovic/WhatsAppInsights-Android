@@ -6,13 +6,51 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import hr.tvz.android.whatsappinsights.R
+import hr.tvz.android.whatsappinsights.databinding.FragmentInsightsBreakdownBinding
+import hr.tvz.android.whatsappinsights.model.InsightsGenerator
+import hr.tvz.android.whatsappinsights.model.MessageDatabase
+import hr.tvz.android.whatsappinsights.model.MessageRepository
+import hr.tvz.android.whatsappinsights.view.IBreakdownView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlin.math.roundToInt
 
-class InsightsBreakdownFragment : Fragment() {
+class InsightsBreakdownFragment : Fragment(), IBreakdownView {
+    private lateinit var binding: FragmentInsightsBreakdownBinding
+    private val database by lazy { MessageDatabase.getDatabase(this.requireContext()) }
+    private val repository by lazy { MessageRepository(database.messageDao()) }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_insights_breakdown, container, false)
+    ): View {
+        binding = FragmentInsightsBreakdownBinding.inflate(inflater, container, false)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val messages = repository.allMessages()
+            val insights = InsightsGenerator(messages)
+            withContext(Dispatchers.Main){
+                setTimeOfDayValues(insights.getByTimeOfDay())
+            }
+        }
+
+        return binding.root
+    }
+
+    override fun setTimeOfDayValues(map: Map<String,Int>) {
+        val morningText = "${map["Morning"]} (${(map["Morning"]!!.toDouble()/map.values.sum()*100).roundToInt()}%)"
+        val dayText = "${map["Day"]} (${(map["Day"]!!.toDouble()/map.values.sum()*100).roundToInt()}%)"
+        val eveningText = "${map["Evening"]} (${(map["Evening"]!!.toDouble()/map.values.sum()*100).roundToInt()}%)"
+        val nightText = "${map["Night"]} (${(map["Night"]!!.toDouble()/map.values.sum()*100).roundToInt()}%)"
+
+        binding.breakdownMorning.text = morningText
+        binding.breakdownDay.text = dayText
+        binding.breakdownEvening.text = eveningText
+        binding.breakdownNight.text = nightText
+    }
+
+    override fun setMonthValues() {
+        TODO("Not yet implemented")
     }
 }

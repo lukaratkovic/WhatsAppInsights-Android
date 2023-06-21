@@ -1,7 +1,6 @@
 package hr.tvz.android.whatsappinsights.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +9,13 @@ import hr.tvz.android.whatsappinsights.databinding.FragmentInsightsSummaryBindin
 import hr.tvz.android.whatsappinsights.model.InsightsGenerator
 import hr.tvz.android.whatsappinsights.model.MessageDatabase
 import hr.tvz.android.whatsappinsights.model.MessageRepository
-import hr.tvz.android.whatsappinsights.view.IInsightSummaryView
+import hr.tvz.android.whatsappinsights.view.ISummaryView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class InsightsSummaryFragment : Fragment(), IInsightSummaryView {
+class InsightsSummaryFragment : Fragment(), ISummaryView {
     private lateinit var binding: FragmentInsightsSummaryBinding
     private val database by lazy { MessageDatabase.getDatabase(this.requireContext()) }
     private val repository by lazy { MessageRepository(database.messageDao()) }

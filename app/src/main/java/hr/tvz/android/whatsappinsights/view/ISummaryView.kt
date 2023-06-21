@@ -1,6 +1,6 @@
 package hr.tvz.android.whatsappinsights.view
 
-interface IInsightSummaryView {
+interface ISummaryView {
     fun setCount(n: Int)
     fun setFirstDate(date: String)
     fun setLastDate(date: String)
