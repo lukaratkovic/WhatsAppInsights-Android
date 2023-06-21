@@ -43,12 +43,12 @@ class MainActivity : AppCompatActivity(), IWelcomeView {
         startActivity(intent)
     }
 
-    override fun onFileLoaded(messages: MutableList<Message>) {
+    override fun onFileLoaded(messages: MutableList<Message>, fileName: String) {
         val scope = this
         database.clearAllTables()
         CoroutineScope(Dispatchers.Main).launch {
             repository.insertMessage(messages)
-            startActivity(Intent(scope, Insights::class.java))
+            startActivity(Intent(scope, Insights::class.java).apply{putExtra("TITLE", fileName)})
         }
     }
 
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity(), IWelcomeView {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == WelcomeController.REQUEST_FILE && resultCode == Activity.RESULT_OK){
-            welcomeController.parseFile(data?.data, cacheDir)
+            welcomeController.parseFile(data?.data, cacheDir, contentResolver)
         }
     }
 }

@@ -7,5 +7,5 @@ interface IWelcomeView {
     fun getContext(): Context
     fun onInstructionsInvoke()
     fun onFileLoadStart()
-    fun onFileLoaded(messages: MutableList<Message>)
+    fun onFileLoaded(messages: MutableList<Message>, fileName: String)
 }

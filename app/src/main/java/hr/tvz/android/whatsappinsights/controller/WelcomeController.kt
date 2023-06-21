@@ -1,23 +1,22 @@
 package hr.tvz.android.whatsappinsights.controller
 
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.Intent
+import android.database.Cursor
 import android.net.Uri
+import android.provider.OpenableColumns
 import android.widget.Toast
 import hr.tvz.android.whatsappinsights.model.Message
-import hr.tvz.android.whatsappinsights.model.MessageDatabase
-import hr.tvz.android.whatsappinsights.model.MessageRepository
 import hr.tvz.android.whatsappinsights.view.IWelcomeView
-import kotlinx.coroutines.Dispatchers
 import java.io.File
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 interface IWelcomeController {
     fun onLoad(activity: Activity)
-    fun parseFile(uri: Uri?, cacheDir: File)
+    fun parseFile(uri: Uri?, cacheDir: File, contentResolver: ContentResolver)
+    fun getFileNameFromUri(uri: Uri?, contentResolver: ContentResolver): String
 }
 
 class WelcomeController(private val welcomeView: IWelcomeView): IWelcomeController {
@@ -26,8 +25,9 @@ class WelcomeController(private val welcomeView: IWelcomeView): IWelcomeControll
         activity.startActivityForResult(intent, REQUEST_FILE)
     }
 
-    override fun parseFile(uri: Uri?, cacheDir: File) {
+    override fun parseFile(uri: Uri?, cacheDir: File, contentResolver: ContentResolver) {
         val file: File? = getFileFromUri(uri, cacheDir)
+        val fileName = getFileNameFromUri(uri, contentResolver)
         welcomeView.onFileLoadStart()
         Thread{
             if(file == null){
@@ -49,7 +49,7 @@ class WelcomeController(private val welcomeView: IWelcomeView): IWelcomeControll
                 }
                 else parsedMessages.last().appendToMessage(message)
             }
-            welcomeView.onFileLoaded(parsedMessages)
+            welcomeView.onFileLoaded(parsedMessages, fileName)
         }.start()
     }
 
@@ -66,6 +66,33 @@ class WelcomeController(private val welcomeView: IWelcomeView): IWelcomeControll
             return tempFile
         }
         return null
+    }
+
+    override fun getFileNameFromUri(uri: Uri?, contentResolver: ContentResolver): String {
+        var filename: String? = null
+
+        if (uri?.scheme == "file") {
+            // If the URI is a file URI, extract the filename from the path
+            filename = uri.lastPathSegment
+        } else {
+            // If the URI is a content URI, query the media provider to get the filename
+            var cursor: Cursor? = null
+            try {
+                cursor = contentResolver.query(uri!!, null, null, null, null)
+                cursor?.let {
+                    if (it.moveToFirst()) {
+                        val displayNameIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                        if (displayNameIndex != -1) {
+                            filename = it.getString(displayNameIndex)
+                        }
+                    }
+                }
+            } finally {
+                cursor?.close()
+            }
+        }
+
+        return filename ?: "Unknown filename"
     }
 
     fun parseMessage(message: String): Message {
