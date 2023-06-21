@@ -14,6 +14,7 @@ import hr.tvz.android.whatsappinsights.view.IInsightSummaryView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class InsightsSummaryFragment : Fragment(), IInsightSummaryView {
     private lateinit var binding: FragmentInsightsSummaryBinding
@@ -29,10 +30,12 @@ class InsightsSummaryFragment : Fragment(), IInsightSummaryView {
         CoroutineScope(Dispatchers.IO).launch {
             val messages = repository.allMessages()
             val insights = InsightsGenerator(messages)
-            setCount(insights.getTotalCount())
-            setFirstDate(insights.getFirstMessageDate())
-            setLastDate(insights.getLastMessageDate())
-
+            withContext(Dispatchers.Main){
+                setCount(insights.getTotalCount())
+                setFirstDate(insights.getFirstMessageDate())
+                setLastDate(insights.getLastMessageDate())
+                setSenderBreakdown(insights.getBySender())
+            }
         }
         return binding.root
     }
@@ -53,9 +56,14 @@ class InsightsSummaryFragment : Fragment(), IInsightSummaryView {
     }
 
     override fun setSenderBreakdown(map: Map<String, Int>) {
-        val breakdownBuilder = StringBuilder()
+        val breakdownBuilder = StringBuilder("Messages by sender:\n")
         for((user, count) in map){
-            TODO()
+            breakdownBuilder.append(user)
+                .append(" - ")
+                .append(count)
+                .append("\n")
         }
+        val text = breakdownBuilder.toString()
+        binding.insightsBreakdownBySender.text = text
     }
 }
