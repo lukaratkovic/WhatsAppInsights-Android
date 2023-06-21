@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">WhatsApp Insights</string>
+    <string name="welcomeMessage">Welcome to WhatsApp Insights!</string>
+    <string name="welcomeInstructions">To generate insights, load the exported text file for the desired conversation.</string>
+    <string name="load_button_text">Load file</string>
+    <string name="instructions_button_text">Instructions</string>
+    <string name="instructions_step1">Step 1. Open the conversation you wish to export and click the three dots in the top right corner.</string>
+    <string name="instructions_step2">Step 2. Click More in the resulting context menu.</string>
+    <string name="instructions_step3">Step 3. Click Export chat.</string>
+    <string name="instructions_step4">Step 4. Select without media.</string>
+</resources>
