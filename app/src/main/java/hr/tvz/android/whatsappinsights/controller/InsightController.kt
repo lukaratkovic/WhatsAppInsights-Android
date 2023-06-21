@@ -1,25 +1,29 @@
 package hr.tvz.android.whatsappinsights.controller
 
-import hr.tvz.android.whatsappinsights.model.Insights
+import hr.tvz.android.whatsappinsights.model.InsightsGenerator
 import hr.tvz.android.whatsappinsights.model.Message
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.toList
+import hr.tvz.android.whatsappinsights.model.MessageRepository
+import hr.tvz.android.whatsappinsights.view.IInsightView
 
 interface IInsightController {
-    suspend fun loadData(flow: Flow<Message>)
+    suspend fun loadData(repository: MessageRepository)
     fun getData(): List<Message>
+    fun getinsightsGenerator(): InsightsGenerator
 }
 
-class InsightController: IInsightController{
+class InsightController(private val insightView: IInsightView): IInsightController{
     var messages = listOf<Message>()
-    lateinit var insights: Insights
+    lateinit var insightsGenerator: InsightsGenerator
 
-    override suspend fun loadData(flow: Flow<Message>){
-        messages = flow.toList()
-        insights = Insights(messages)
+    override suspend fun loadData(repository: MessageRepository){
+        messages = repository.allMessages()
+        insightsGenerator = InsightsGenerator(messages)
+        insightView.showData()
     }
 
     override fun getData(): List<Message> {
         return messages
     }
+
+    override fun getinsightsGenerator(): InsightsGenerator = insightsGenerator
 }

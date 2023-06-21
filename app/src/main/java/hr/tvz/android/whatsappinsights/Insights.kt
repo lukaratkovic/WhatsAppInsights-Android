@@ -1,11 +1,13 @@
 package hr.tvz.android.whatsappinsights
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import hr.tvz.android.whatsappinsights.controller.IInsightController
 import hr.tvz.android.whatsappinsights.controller.IWelcomeController
 import hr.tvz.android.whatsappinsights.controller.InsightController
 import hr.tvz.android.whatsappinsights.databinding.ActivityInsightsBinding
+import hr.tvz.android.whatsappinsights.fragments.InsightsSummaryFragment
 import hr.tvz.android.whatsappinsights.model.MessageDatabase
 import hr.tvz.android.whatsappinsights.model.MessageRepository
 import hr.tvz.android.whatsappinsights.view.IInsightView
@@ -24,9 +26,11 @@ class Insights : AppCompatActivity(), IInsightView {
         binding = ActivityInsightsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        insightController = InsightController(this)
+
         changeTitle(intent.getStringExtra("TITLE") ?: "Unknown title")
-        CoroutineScope(Dispatchers.Main).launch {
-            insightController.loadData(repository.allMessages)
+        CoroutineScope(Dispatchers.IO).launch {
+            insightController.loadData(repository)
         }
     }
 
@@ -35,6 +39,8 @@ class Insights : AppCompatActivity(), IInsightView {
     }
 
     override fun showData() {
-        TODO("Not yet implemented")
+        supportFragmentManager.beginTransaction()
+            .replace(binding.fragmentContainer.id, InsightsSummaryFragment(insightController.getinsightsGenerator()))
+            .commit()
     }
 }

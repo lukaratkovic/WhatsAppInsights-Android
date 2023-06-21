@@ -23,16 +23,17 @@ data class Message(
 @Dao
 interface MessageDao{
     @Query("SELECT * FROM messages")
-    fun allMessages(): Flow<Message>
+    fun allMessages(): List<Message>
 
     @Insert
     suspend fun insertMessage(vararg message: Message)
 }
 
 class MessageRepository(private val messageDao: MessageDao){
-    val allMessages: Flow<Message> = messageDao.allMessages()
     @WorkerThread
     suspend fun insertMessage(messages: List<Message>) = messageDao.insertMessage(*messages.toTypedArray())
+
+    fun allMessages() = messageDao.allMessages()
 }
 
 @Database(entities = [Message::class], version=1)
