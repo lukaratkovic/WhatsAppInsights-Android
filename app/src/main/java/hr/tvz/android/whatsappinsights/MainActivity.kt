@@ -3,17 +3,22 @@ package hr.tvz.android.whatsappinsights
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import hr.tvz.android.whatsappinsights.controller.IWelcomeController
 import hr.tvz.android.whatsappinsights.controller.WelcomeController
-import hr.tvz.android.whatsappinsights.view.IWelcomeView
 import hr.tvz.android.whatsappinsights.databinding.ActivityMainBinding
 import hr.tvz.android.whatsappinsights.model.Message
+import hr.tvz.android.whatsappinsights.model.MessageDatabase
+import hr.tvz.android.whatsappinsights.model.MessageRepository
+import hr.tvz.android.whatsappinsights.view.IWelcomeView
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity(), IWelcomeView {
-    lateinit var binding: ActivityMainBinding
-    lateinit var welcomeController: IWelcomeController
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var welcomeController: IWelcomeController
+    private val database by lazy { MessageDatabase.getDatabase(this) }
+    val repository by lazy { MessageRepository(database.messageDao()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,14 +38,18 @@ class MainActivity : AppCompatActivity(), IWelcomeView {
     }
 
     override fun onFileLoadStart() {
-        startActivity(Intent(this, Loading::class.java))
+        val intent = Intent(this, Loading::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+        startActivity(intent)
     }
 
     override fun onFileLoaded(messages: MutableList<Message>) {
-        val intent = Intent(this, Insights::class.java).apply {
-            putExtra("messages", ArrayList(messages))
+        val scope = this
+        database.clearAllTables()
+        CoroutineScope(Dispatchers.Main).launch {
+            repository.insertMessage(messages)
+            startActivity(Intent(scope, Insights::class.java))
         }
-        TODO("Open activity, but instead of using Extra save do db first")
     }
 
     override fun getContext(): Context {

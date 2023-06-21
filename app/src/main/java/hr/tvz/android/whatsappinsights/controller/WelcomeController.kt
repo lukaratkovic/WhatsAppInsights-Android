@@ -5,10 +5,15 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import hr.tvz.android.whatsappinsights.model.Message
+import hr.tvz.android.whatsappinsights.model.MessageDatabase
+import hr.tvz.android.whatsappinsights.model.MessageRepository
 import hr.tvz.android.whatsappinsights.view.IWelcomeView
+import kotlinx.coroutines.Dispatchers
 import java.io.File
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 interface IWelcomeController {
     fun onLoad(activity: Activity)
@@ -44,7 +49,6 @@ class WelcomeController(private val welcomeView: IWelcomeView): IWelcomeControll
                 }
                 else parsedMessages.last().appendToMessage(message)
             }
-
             welcomeView.onFileLoaded(parsedMessages)
         }.start()
     }
@@ -76,7 +80,7 @@ class WelcomeController(private val welcomeView: IWelcomeView): IWelcomeControll
         val sender = senderMessage.split(":", limit=2)[0]
         val message = senderMessage.split(":", limit=2)[1]
 
-        return Message(dateTime, sender, message)
+        return Message(dateTime.toString(), sender, message)
     }
 
     companion object {
