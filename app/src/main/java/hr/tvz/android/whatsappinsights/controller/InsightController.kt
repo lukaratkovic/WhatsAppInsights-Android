@@ -18,7 +18,6 @@ class InsightController(private val insightView: IInsightView): IInsightControll
     override suspend fun loadData(repository: MessageRepository){
         messages = repository.allMessages()
         insightsGenerator = InsightsGenerator(messages)
-        insightView.showData()
     }
 
     override fun getData(): List<Message> {

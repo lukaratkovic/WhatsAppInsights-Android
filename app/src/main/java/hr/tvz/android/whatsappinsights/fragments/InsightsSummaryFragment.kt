@@ -9,17 +9,13 @@ import hr.tvz.android.whatsappinsights.databinding.FragmentInsightsSummaryBindin
 import hr.tvz.android.whatsappinsights.model.InsightsGenerator
 import hr.tvz.android.whatsappinsights.view.IInsightSummaryView
 
-class InsightsSummaryFragment(val insightsGenerator: InsightsGenerator) : Fragment(), IInsightSummaryView {
+class InsightsSummaryFragment() : Fragment(), IInsightSummaryView {
     private lateinit var binding: FragmentInsightsSummaryBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentInsightsSummaryBinding.inflate(inflater, container, false)
-
-        setCount(insightsGenerator.getTotalCount())
-        setFirstDate(insightsGenerator.getFirstMessageDate())
-        setLastDate(insightsGenerator.getLastMessageDate())
 
         return binding.root
     }
