@@ -9,6 +9,7 @@ import hr.tvz.android.whatsappinsights.controller.IWelcomeController
 import hr.tvz.android.whatsappinsights.controller.WelcomeController
 import hr.tvz.android.whatsappinsights.view.IWelcomeView
 import hr.tvz.android.whatsappinsights.databinding.ActivityMainBinding
+import hr.tvz.android.whatsappinsights.model.Message
 
 class MainActivity : AppCompatActivity(), IWelcomeView {
     lateinit var binding: ActivityMainBinding
@@ -29,6 +30,17 @@ class MainActivity : AppCompatActivity(), IWelcomeView {
 
     override fun onInstructionsInvoke() {
         startActivity(Intent(this, Instructions::class.java))
+    }
+
+    override fun onFileLoadStart() {
+        startActivity(Intent(this, Loading::class.java))
+    }
+
+    override fun onFileLoaded(messages: MutableList<Message>) {
+        val intent = Intent(this, Insights::class.java).apply {
+            putExtra("messages", ArrayList(messages))
+        }
+        TODO("Open activity, but instead of using Extra save do db first")
     }
 
     override fun getContext(): Context {

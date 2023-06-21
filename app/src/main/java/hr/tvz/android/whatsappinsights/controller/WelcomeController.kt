@@ -23,25 +23,30 @@ class WelcomeController(private val welcomeView: IWelcomeView): IWelcomeControll
 
     override fun parseFile(uri: Uri?, cacheDir: File) {
         val file: File? = getFileFromUri(uri, cacheDir)
-        if(file == null){
-            Toast.makeText(welcomeView.getContext(),
-                "Error opening file!",
-                Toast.LENGTH_SHORT).show()
-            return
-        }
-        val regex = Regex("^\\d{1,2}/\\d{1,2}/\\d{2},\\s\\d{1,2}:\\d{2}\\u202F[AP]M.*")
-
-        val parsedMessages = mutableListOf<Message>()
-        var text = ""
-        for(message in file.readLines()){
-            if(message.matches(Regex("^\\d{1,2}/\\d{1,2}/\\d{2},\\s\\d{1,2}:\\d{2}\\u202F[AP]M - Messages and calls are end-to-end encrypted. No one outside of this chat, not even WhatsApp, can read or listen to them. Tap to learn more."))
-                || message.matches(Regex("^\\d{1,2}\\/\\d{1,2}\\/\\d{2},\\s\\d{1,2}:\\d{2}\\u202F[AP]M\\s-\\s[^:]*")))
-                continue
-            if(message.matches(regex)){
-                parsedMessages.add(parseMessage(message))
+        welcomeView.onFileLoadStart()
+        Thread{
+            if(file == null){
+                Toast.makeText(welcomeView.getContext(),
+                    "Error opening file!",
+                    Toast.LENGTH_SHORT).show()
+                return@Thread
             }
-            else parsedMessages.last().appendToMessage(message)
-        }
+            val regex = Regex("^\\d{1,2}/\\d{1,2}/\\d{2},\\s\\d{1,2}:\\d{2}\\u202F[AP]M.*")
+
+            val parsedMessages = mutableListOf<Message>()
+            var text = ""
+            for(message in file.readLines()){
+                if(message.matches(Regex("^\\d{1,2}/\\d{1,2}/\\d{2},\\s\\d{1,2}:\\d{2}\\u202F[AP]M - Messages and calls are end-to-end encrypted. No one outside of this chat, not even WhatsApp, can read or listen to them. Tap to learn more."))
+                    || message.matches(Regex("^\\d{1,2}\\/\\d{1,2}\\/\\d{2},\\s\\d{1,2}:\\d{2}\\u202F[AP]M\\s-\\s[^:]*")))
+                    continue
+                if(message.matches(regex)){
+                    parsedMessages.add(parseMessage(message))
+                }
+                else parsedMessages.last().appendToMessage(message)
+            }
+
+            welcomeView.onFileLoaded(parsedMessages)
+        }.start()
     }
 
     private fun getFileFromUri(uri: Uri?, cacheDir: File): File?{
