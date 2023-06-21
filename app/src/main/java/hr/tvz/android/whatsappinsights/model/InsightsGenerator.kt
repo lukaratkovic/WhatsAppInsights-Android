@@ -12,6 +12,14 @@ class InsightsGenerator(private val inputMessages: List<Message>) {
     fun getTotalCount() = messages.size
     fun getFirstMessageDate(): String = messages.first().time.format(dateFormatter)
     fun getLastMessageDate(): String = messages.last().time.format(dateFormatter)
+
+    fun getBySender(): Map<String, Int>{
+        val map = mutableMapOf<String, Int>()
+        for(message in messages){
+            map.merge(message.sender, 1){ count, _ -> count+1 }
+        }
+        return map.toList().sortedByDescending { (_, value) -> value }.toMap()
+    }
 }
 
 data class InsightMessage(
