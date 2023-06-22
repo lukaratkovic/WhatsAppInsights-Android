@@ -10,7 +10,7 @@
     <string name="instructions_step4">Step 4. Select without media.</string>
     <string name="instructions_step5">Step 5. Store the exported file to your device and then load it into this app.</string>
     <string name="load_previous_button_text">Load previous</string>
-    <string name="breakdown_daily_header_text">DAILY</string>
-    <string name="breakdown_monthly_header_text">MONTHLY</string>
+    <string name="trends_daily_header_text">DAILY</string>
+    <string name="trends_monthly_header_text">MONTHLY</string>
     <string name="loading_text">Generating insights. Please wait...</string>
 </resources>
