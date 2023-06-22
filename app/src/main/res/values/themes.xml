@@ -13,4 +13,10 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="ReversedButton" parent="Widget.AppCompat.Button">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:outlineProvider">none</item>
+        <item name="android:textColor">@color/whatsAppDarkGreen</item>
+    </style>
 </resources>
