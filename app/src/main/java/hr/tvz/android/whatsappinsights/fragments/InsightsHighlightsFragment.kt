@@ -34,17 +34,23 @@ class InsightsHighlightsFragment : Fragment(), IHighlightsView {
             val messages = repository.allMessages()
             val insights = InsightsGenerator(messages)
             withContext(Dispatchers.Main){
-                val n = 10
-                val rows = highlightsController.generateTopViewsFromMap(insights.getTopN(n))
-                setTopDays(rows, n)
-
+                val nDays = 10
+                val dayRows = highlightsController.generateTopDaysRowsFromMap(insights.getTopN(nDays))
+                setTopDays(dayRows)
+                val nEmojis = 10
+                val emojiRows = highlightsController.generateTopEmojiRowsFromMap(insights.getTopEmojis(nEmojis))
+                setTopEmojis(emojiRows)
             }
         }
         return binding.root
     }
 
-    override fun setTopDays(rows: List<TableRow>, n: Int) {
-        rows.forEach { binding.recordsTop5.addView(it) }
+    override fun setTopDays(rows: List<TableRow>) {
+        rows.forEach { binding.highlightsTopDays.addView(it) }
+    }
+
+    override fun setTopEmojis(rows: List<TableRow>) {
+        rows.forEach { binding.highlightsTopEmojis.addView(it) }
     }
 
     override fun getFragmentContext(): Context {

@@ -1,5 +1,6 @@
 package hr.tvz.android.whatsappinsights.model
 
+import android.util.Log
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.Period
@@ -68,6 +69,20 @@ class InsightsGenerator(private val inputMessages: List<Message>) {
         return map.entries.sortedByDescending { it.value }
             .take(n)
             .associate { it.key to it.value }
+    }
+
+    fun getTopEmojis(n: Int): Map<String, Int>{
+        val map = mutableMapOf<String, Int>()
+        val regex = Regex("\\p{So}")
+        for (message in messages){
+            regex.findAll(message.message).forEach { result ->
+                val emoji = result.value
+                map[emoji] = map.getOrDefault(emoji, 0) + 1
+            }
+        }
+        return map.toList().sortedByDescending { (_, count) -> count }
+            .filter{ (emoji, _) -> !listOf("♂", "♀", "°").contains(emoji) }
+            .take(n).toMap()
     }
 }
 
