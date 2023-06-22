@@ -14,6 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.math.roundToInt
 
 class InsightsSummaryFragment : Fragment(), ISummaryView {
     private lateinit var binding: FragmentInsightsSummaryBinding
@@ -34,6 +35,7 @@ class InsightsSummaryFragment : Fragment(), ISummaryView {
                 setFirstDate(insights.getFirstMessageDate())
                 setLastDate(insights.getLastMessageDate())
                 setSenderBreakdown(insights.getBySender())
+                setAverages(insights.getAverages())
             }
         }
         return binding.root
@@ -45,12 +47,12 @@ class InsightsSummaryFragment : Fragment(), ISummaryView {
     }
 
     override fun setFirstDate(date: String) {
-        val text = "First message was $date"
+        val text = "First message was on $date"
         binding.insightsFirstMessageDate.text = text
     }
 
     override fun setLastDate(date: String) {
-        val text = "Last message was $date"
+        val text = "Last message was on $date"
         binding.insightsLastMessageDate.text = text
     }
 
@@ -62,7 +64,14 @@ class InsightsSummaryFragment : Fragment(), ISummaryView {
                 .append(count)
                 .append("\n")
         }
-        val text = breakdownBuilder.toString()
-        binding.insightsBreakdownBySender.text = text
+        binding.insightsBreakdownBySender.text = breakdownBuilder.toString()
+    }
+
+    override fun setAverages(values: Triple<Double, Double, Double>) {
+        val averageBuilder = StringBuilder("Averages:\n")
+            .append("Yearly: ${values.first.roundToInt()}\n")
+            .append("Monthly: ${values.second.roundToInt()}\n")
+            .append("Daily: ${values.third.roundToInt()}")
+        binding.insightsAverages.text = averageBuilder.toString()
     }
 }

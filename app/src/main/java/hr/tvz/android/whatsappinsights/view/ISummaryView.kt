@@ -5,4 +5,5 @@ interface ISummaryView {
     fun setFirstDate(date: String)
     fun setLastDate(date: String)
     fun setSenderBreakdown(map: Map<String, Int>)
+    fun setAverages(values: Triple<Double, Double, Double>)
 }

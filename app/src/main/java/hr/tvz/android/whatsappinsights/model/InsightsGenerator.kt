@@ -1,7 +1,9 @@
 package hr.tvz.android.whatsappinsights.model
 
 import java.time.LocalDateTime
+import java.time.Period
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 class InsightsGenerator(private val inputMessages: List<Message>) {
     var messages: List<InsightMessage> = inputMessages
@@ -31,6 +33,15 @@ class InsightsGenerator(private val inputMessages: List<Message>) {
             else map["Night"] = map["Night"]!!+1
         }
         return map
+    }
+
+    fun getAverages(): Triple<Double, Double, Double>{
+        val (first, last) = messages.first().time to messages.last().time
+        val period = Period.between(first.toLocalDate(), last.toLocalDate())
+        val yearlyAverage = messages.size / (period.toTotalMonths()/12.0)
+        val monthlyAverage = messages.size / (period.toTotalMonths()).toDouble()
+        val dailyAverage = messages.size / ChronoUnit.DAYS.between(first,last).toDouble()
+        return Triple(yearlyAverage, monthlyAverage, dailyAverage)
     }
 }
 
