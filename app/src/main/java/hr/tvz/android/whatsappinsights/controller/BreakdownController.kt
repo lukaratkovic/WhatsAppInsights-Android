@@ -1,13 +1,9 @@
 package hr.tvz.android.whatsappinsights.controller
 
-import android.graphics.Typeface
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.ScrollView
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import hr.tvz.android.whatsappinsights.model.BreakdownMonthTextView
-import hr.tvz.android.whatsappinsights.model.BreakdownYearTextView
+import hr.tvz.android.whatsappinsights.model.HeaderTextView
 import hr.tvz.android.whatsappinsights.view.IBreakdownView
 import java.time.Month
 
@@ -20,7 +16,7 @@ class BreakdownController(private val breakdownView: IBreakdownView) : IBreakdow
         val container = LinearLayout(breakdownView.getFragmentContext())
         container.orientation = LinearLayout.VERTICAL
         for((year, monthMap) in map){
-            val view = BreakdownYearTextView(breakdownView.getFragmentContext())
+            val view = HeaderTextView(breakdownView.getFragmentContext())
             val text = "$year (${monthMap.values.sum()} messages)"
             view.text = text
             container.addView(view)

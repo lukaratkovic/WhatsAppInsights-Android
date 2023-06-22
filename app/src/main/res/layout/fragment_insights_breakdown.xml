@@ -6,11 +6,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.InsightsBreakdownFragment">
 
+    <hr.tvz.android.whatsappinsights.model.HeaderTextView
+        android:id="@+id/breakdown_daily_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/breakdown_daily_header_text"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TableLayout
         android:id="@+id/breakdown_daily"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/breakdown_daily_header">
 
         <!-- First Row -->
         <TableRow
@@ -18,18 +26,18 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:src="@drawable/morning"
                 android:layout_width="0dp"
+                android:layout_height="50dp"
                 android:layout_weight="1"
-                android:layout_height="50dp"/>
+                android:src="@drawable/morning" />
 
             <TextView
                 android:id="@+id/breakdown_morning"
                 android:layout_width="0dp"
-                android:layout_weight="2"
                 android:layout_height="50dp"
+                android:layout_weight="2"
                 android:gravity="center"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
         </TableRow>
 
@@ -39,18 +47,18 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:src="@drawable/day"
                 android:layout_width="0dp"
+                android:layout_height="50dp"
                 android:layout_weight="1"
-                android:layout_height="50dp"/>
+                android:src="@drawable/day" />
 
             <TextView
                 android:id="@+id/breakdown_day"
                 android:layout_width="0dp"
-                android:layout_weight="2"
                 android:layout_height="50dp"
+                android:layout_weight="2"
                 android:gravity="center"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
         </TableRow>
 
@@ -60,18 +68,18 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:src="@drawable/evening"
                 android:layout_width="0dp"
+                android:layout_height="50dp"
                 android:layout_weight="1"
-                android:layout_height="50dp"/>
+                android:src="@drawable/evening" />
 
             <TextView
                 android:id="@+id/breakdown_evening"
                 android:layout_width="0dp"
-                android:layout_weight="2"
                 android:layout_height="50dp"
+                android:layout_weight="2"
                 android:gravity="center"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
         </TableRow>
 
@@ -81,29 +89,51 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:src="@drawable/night"
                 android:layout_width="0dp"
+                android:layout_height="50dp"
                 android:layout_weight="1"
-                android:layout_height="50dp"/>
+                android:src="@drawable/night" />
 
             <TextView
                 android:id="@+id/breakdown_night"
                 android:layout_width="0dp"
-                android:layout_weight="2"
                 android:layout_height="50dp"
+                android:layout_weight="2"
                 android:gravity="center"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
         </TableRow>
 
     </TableLayout>
 
+    <View
+        android:id="@+id/hr1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/darkgrey"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/breakdown_daily"
+        tools:layout_editor_absoluteX="20dp" />
+
+    <hr.tvz.android.whatsappinsights.model.HeaderTextView
+        android:id="@+id/breakdown_monthly_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/breakdown_monthly_header_text"
+        app:layout_constraintTop_toBottomOf="@+id/hr1" />
+
     <ScrollView
         android:id="@+id/breakdown_monthly"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:layout_constraintTop_toBottomOf="@id/breakdown_daily">
-    </ScrollView>
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:paddingBottom="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/breakdown_monthly_header"
+        app:layout_constraintVertical_weight="1"
+        tools:layout_editor_absoluteX="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

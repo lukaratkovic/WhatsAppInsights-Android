@@ -33,7 +33,7 @@
         android:id="@+id/hr1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#000"
+        android:background="@color/darkgrey"
         android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@+id/step1_image"
         tools:layout_editor_absoluteX="20dp" />
@@ -60,7 +60,7 @@
         android:id="@+id/hr2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#000"
+        android:background="@color/darkgrey"
         android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@+id/step2_image"
         tools:layout_editor_absoluteX="20dp" />
@@ -87,7 +87,7 @@
         android:id="@+id/hr3"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#000"
+        android:background="@color/darkgrey"
         android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@+id/step3_image"
         tools:layout_editor_absoluteX="20dp" />
@@ -114,7 +114,7 @@
         android:id="@+id/hr4"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#000"
+        android:background="@color/darkgrey"
         android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@+id/step4_image"
         tools:layout_editor_absoluteX="20dp" />

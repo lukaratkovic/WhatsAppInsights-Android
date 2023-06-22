@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import androidx.core.content.ContextCompat
 import hr.tvz.android.whatsappinsights.R
 
-class BreakdownYearTextView: androidx.appcompat.widget.AppCompatTextView {
+class HeaderTextView: androidx.appcompat.widget.AppCompatTextView {
     constructor(context: Context) : super(context) {
         init()
     }
