@@ -1,10 +1,13 @@
 package hr.tvz.android.whatsappinsights.fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TableRow
+import hr.tvz.android.whatsappinsights.controller.HighlightsController
 import hr.tvz.android.whatsappinsights.databinding.FragmentInsightsRecordsBinding
 import hr.tvz.android.whatsappinsights.model.InsightsGenerator
 import hr.tvz.android.whatsappinsights.model.MessageDatabase
@@ -14,11 +17,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class InsightsHighlightsFragment : Fragment(), IHighlightsView {
     private lateinit var binding: FragmentInsightsRecordsBinding
+    private lateinit var highlightsController: HighlightsController
     private val database by lazy { MessageDatabase.getDatabase(this.requireContext()) }
     private val repository by lazy { MessageRepository(database.messageDao()) }
     override fun onCreateView(
@@ -26,23 +28,26 @@ class InsightsHighlightsFragment : Fragment(), IHighlightsView {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentInsightsRecordsBinding.inflate(inflater, container, false)
+        highlightsController = HighlightsController(this)
+
         CoroutineScope(Dispatchers.IO).launch {
             val messages = repository.allMessages()
             val insights = InsightsGenerator(messages)
             withContext(Dispatchers.Main){
-                setTop5(insights.getTopN(5))
+                val n = 10
+                val rows = highlightsController.generateTopViewsFromMap(insights.getTopN(n))
+                setTopDays(rows, n)
+
             }
         }
         return binding.root
     }
 
-    override fun setTop5(map: Map<LocalDate, Int>) {
-        val topBuilder = StringBuilder()
-        val dateFormatter = DateTimeFormatter.ofPattern("EEE, dd MMMM, yyyy")
-        for((day,count) in map){
-            topBuilder.append("${dateFormatter.format(day)} - $count\n")
-        }
-        val text = topBuilder.toString()
-        binding.recordsTop5.text = text
+    override fun setTopDays(rows: List<TableRow>, n: Int) {
+        rows.forEach { binding.recordsTop5.addView(it) }
+    }
+
+    override fun getFragmentContext(): Context {
+        return requireContext()
     }
 }

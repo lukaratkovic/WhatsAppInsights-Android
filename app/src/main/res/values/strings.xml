@@ -13,4 +13,5 @@
     <string name="trends_daily_header_text">DAILY</string>
     <string name="trends_monthly_header_text">MONTHLY</string>
     <string name="loading_text">Generating insights. Please wait...</string>
+    <string name="records_top_days">TOP DAYS</string>
 </resources>

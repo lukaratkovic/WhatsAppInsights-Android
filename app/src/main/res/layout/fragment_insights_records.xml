@@ -11,13 +11,12 @@
         android:id="@+id/records_top5_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Top 5 days"
+        android:text="@string/records_top_days"
         app:layout_constraintTop_toTopOf="parent"/>
-    <TextView
+    <TableLayout
         android:id="@+id/records_top5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/records_top5_header">
-    </TextView>
+        app:layout_constraintTop_toBottomOf="@id/records_top5_header"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
