@@ -10,7 +10,7 @@ class InsightsGenerator(private val inputMessages: List<Message>) {
     var messages: List<InsightMessage> = inputMessages
         .map { m -> InsightMessage(m.time(), m.sender, m.message) }
         .sortedBy { it.time }
-    private val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
+    private val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM, yyyy")
 
     fun getTotalCount() = messages.size
     fun getFirstMessageDate(): String = messages.first().time.format(dateFormatter)

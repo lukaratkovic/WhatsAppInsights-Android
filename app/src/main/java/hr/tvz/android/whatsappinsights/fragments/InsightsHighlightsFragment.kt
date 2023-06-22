@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class InsightsHighlightsFragment : Fragment(), IHighlightsView {
     private lateinit var binding: FragmentInsightsRecordsBinding
@@ -37,8 +38,9 @@ class InsightsHighlightsFragment : Fragment(), IHighlightsView {
 
     override fun setTop5(map: Map<LocalDate, Int>) {
         val topBuilder = StringBuilder()
+        val dateFormatter = DateTimeFormatter.ofPattern("EEE, dd MMMM, yyyy")
         for((day,count) in map){
-            topBuilder.append("$day - $count\n")
+            topBuilder.append("${dateFormatter.format(day)} - $count\n")
         }
         val text = topBuilder.toString()
         binding.recordsTop5.text = text
