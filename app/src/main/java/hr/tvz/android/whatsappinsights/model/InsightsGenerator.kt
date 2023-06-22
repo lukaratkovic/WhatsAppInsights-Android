@@ -81,7 +81,7 @@ class InsightsGenerator(private val inputMessages: List<Message>) {
             }
         }
         return map.toList().sortedByDescending { (_, count) -> count }
-            .filter{ (emoji, _) -> !listOf("♂", "♀", "°").contains(emoji) }
+            .filter{ (emoji, _) -> !listOf("♂", "♀", "°", "⠀", "⣿").contains(emoji) }
             .take(n).toMap()
     }
 }
