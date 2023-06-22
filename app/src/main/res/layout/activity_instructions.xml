@@ -110,6 +110,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/instructions_step4" />
 
+    <View
+        android:id="@+id/hr4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/step4_image"
+        tools:layout_editor_absoluteX="20dp" />
+
+    <TextView
+        android:id="@+id/instructions_step5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/hr4"
+        android:text="@string/instructions_step5"/>
+
   </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
