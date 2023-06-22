@@ -4,32 +4,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.InsightsHighlightsFragment"
-    android:padding="16dp">
+    tools:context=".fragments.InsightsHighlightsFragment">
 
     <hr.tvz.android.whatsappinsights.model.HeaderTextView
         android:id="@+id/highlights_topDays_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/records_top_days"
+        android:layout_marginStart="16dp"
         app:layout_constraintTop_toTopOf="parent"/>
     <TableLayout
         android:id="@+id/highlights_topDays"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="16dp"
         app:layout_constraintTop_toBottomOf="@id/highlights_topDays_header"/>
+
+    <View
+        android:id="@+id/hr1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/darkgrey"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/highlights_topDays" />
 
     <hr.tvz.android.whatsappinsights.model.HeaderTextView
         android:id="@+id/highlights_topEmojis_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/records_top_emojis"
-        app:layout_constraintTop_toBottomOf="@+id/highlights_topDays"
-        tools:layout_editor_absoluteX="16dp" />
+        android:layout_marginStart="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/hr1" />
     <TableLayout
         android:id="@+id/highlights_topEmojis"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="16dp"
         app:layout_constraintTop_toBottomOf="@id/highlights_topEmojis_header"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
