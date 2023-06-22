@@ -27,10 +27,9 @@ class MainActivity : AppCompatActivity(), IWelcomeView {
 
         welcomeController = WelcomeController(this)
 
-        binding.loadButton.setOnClickListener {
-            welcomeController.onLoad(this)
-        }
+        binding.loadButton.setOnClickListener { welcomeController.onLoad(this) }
         binding.instructionsButton.setOnClickListener { onInstructionsInvoke() }
+        binding.loadPreviousButton?.setOnClickListener { welcomeController.loadPrevious() }
     }
 
     override fun onInstructionsInvoke() {
@@ -50,6 +49,10 @@ class MainActivity : AppCompatActivity(), IWelcomeView {
             repository.insertMessage(messages)
             startActivity(Intent(scope, Insights::class.java).apply{putExtra("TITLE", fileName)})
         }
+    }
+
+    override fun onPreviousLoaded() {
+        startActivity(Intent(this, Insights::class.java).apply{putExtra("TITLE", "WhatsApp Insights")})
     }
 
     override fun getContext(): Context {

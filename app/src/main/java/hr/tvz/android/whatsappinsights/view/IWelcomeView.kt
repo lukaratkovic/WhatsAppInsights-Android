@@ -8,4 +8,5 @@ interface IWelcomeView {
     fun onInstructionsInvoke()
     fun onFileLoadStart()
     fun onFileLoaded(messages: MutableList<Message>, fileName: String)
+    fun onPreviousLoaded()
 }

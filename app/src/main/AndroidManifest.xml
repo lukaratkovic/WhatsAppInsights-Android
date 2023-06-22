@@ -22,7 +22,7 @@
         <activity
             android:name=".Instructions"
             android:exported="false"
-            android:label="Load Instructions" />
+            android:label="Export Instructions" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

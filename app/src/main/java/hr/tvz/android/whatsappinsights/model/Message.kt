@@ -27,6 +27,9 @@ interface MessageDao{
 
     @Insert
     suspend fun insertMessage(vararg message: Message)
+
+    @Query("SELECT COUNT(*) FROM messages")
+    fun messageCount(): Integer
 }
 
 class MessageRepository(private val messageDao: MessageDao){
@@ -34,6 +37,8 @@ class MessageRepository(private val messageDao: MessageDao){
     suspend fun insertMessage(messages: List<Message>) = messageDao.insertMessage(*messages.toTypedArray())
 
     fun allMessages() = messageDao.allMessages()
+
+    fun messageCount() = messageDao.messageCount()
 }
 
 @Database(entities = [Message::class], version=1)

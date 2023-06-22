@@ -6,9 +6,16 @@ import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import android.provider.OpenableColumns
+import android.util.Log
 import android.widget.Toast
 import hr.tvz.android.whatsappinsights.model.Message
+import hr.tvz.android.whatsappinsights.model.MessageDatabase
+import hr.tvz.android.whatsappinsights.model.MessageRepository
 import hr.tvz.android.whatsappinsights.view.IWelcomeView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -17,9 +24,13 @@ interface IWelcomeController {
     fun onLoad(activity: Activity)
     fun parseFile(uri: Uri?, cacheDir: File, contentResolver: ContentResolver)
     fun getFileNameFromUri(uri: Uri?, contentResolver: ContentResolver): String
+
+    fun loadPrevious()
 }
 
 class WelcomeController(private val welcomeView: IWelcomeView): IWelcomeController {
+    private val database by lazy { MessageDatabase.getDatabase(welcomeView.getContext()) }
+    private val repository by lazy { MessageRepository(database.messageDao()) }
     override fun onLoad(activity: Activity) {
         val intent = Intent(Intent.ACTION_GET_CONTENT).apply { type = "text/plain" }
         activity.startActivityForResult(intent, REQUEST_FILE)
@@ -93,6 +104,21 @@ class WelcomeController(private val welcomeView: IWelcomeView): IWelcomeControll
         }
 
         return filename ?: "Unknown filename"
+    }
+
+    override fun loadPrevious() {
+        CoroutineScope(Dispatchers.IO).launch {
+            if(repository.messageCount().compareTo(0) == 0){
+                Log.w("TEST", "IF")
+                withContext(Dispatchers.Main){
+                    Toast.makeText(welcomeView.getContext(), "No previous file found. Please load a new one.", Toast.LENGTH_SHORT).show()
+                }
+            }
+            else{
+                Log.w("TEST", "ELSE")
+                welcomeView.onPreviousLoaded()
+            }
+        }
     }
 
     fun parseMessage(message: String): Message {
