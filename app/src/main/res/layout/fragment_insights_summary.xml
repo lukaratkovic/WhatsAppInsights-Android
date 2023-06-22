@@ -41,13 +41,19 @@
         app:layout_constraintTop_toBottomOf="@+id/insights_last_message_date"
         />
 
-    <TextView
-        android:id="@+id/insights_breakdown_by_sender"
-        android:layout_marginTop="20dp"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        app:layout_constraintTop_toBottomOf="@+id/insights_averages"
-        />
+        app:layout_constraintTop_toBottomOf="@id/insights_averages"
+        android:paddingBottom="250dp">
+        <TextView
+            android:id="@+id/insights_breakdown_by_sender"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@+id/insights_averages"
+            />
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
