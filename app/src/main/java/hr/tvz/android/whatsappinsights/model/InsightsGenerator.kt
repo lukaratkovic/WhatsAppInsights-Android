@@ -43,6 +43,20 @@ class InsightsGenerator(private val inputMessages: List<Message>) {
         val dailyAverage = messages.size / ChronoUnit.DAYS.between(first,last).toDouble()
         return Triple(yearlyAverage, monthlyAverage, dailyAverage)
     }
+
+    fun getMonthlyBreakdown(): Map<Int, Map<Int, Int>>{
+        val map = mutableMapOf<Int, MutableMap<Int, Int>>()
+        for (message in messages){
+            val year = message.time.year
+            val month = message.time.monthValue
+
+            val yearMap = map.getOrPut(year){ mutableMapOf()}
+            yearMap[month] = yearMap.getOrDefault(month, 0)+1
+
+            map[year] = yearMap
+        }
+        return map.toSortedMap(reverseOrder())
+    }
 }
 
 data class InsightMessage(

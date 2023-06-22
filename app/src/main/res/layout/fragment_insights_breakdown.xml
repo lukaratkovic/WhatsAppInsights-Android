@@ -98,4 +98,11 @@
 
     </TableLayout>
 
+    <ScrollView
+        android:id="@+id/breakdown_monthly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/breakdown_daily">
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
