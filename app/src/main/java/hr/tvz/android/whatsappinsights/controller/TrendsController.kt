@@ -2,16 +2,16 @@ package hr.tvz.android.whatsappinsights.controller
 
 import android.view.View
 import android.widget.LinearLayout
-import hr.tvz.android.whatsappinsights.model.BreakdownMonthTextView
+import hr.tvz.android.whatsappinsights.model.TrendsMonthTextView
 import hr.tvz.android.whatsappinsights.model.HeaderTextView
-import hr.tvz.android.whatsappinsights.view.IBreakdownView
+import hr.tvz.android.whatsappinsights.view.ITrendsView
 import java.time.Month
 
-interface IBreakdownController{
+interface ITrendsController{
     fun generateViewFromMap(map: Map<Int, Map<Int, Int>>): View
 }
 
-class BreakdownController(private val breakdownView: IBreakdownView) : IBreakdownController {
+class TrendsController(private val breakdownView: ITrendsView) : ITrendsController {
     override fun generateViewFromMap(map: Map<Int, Map<Int, Int>>): View {
         val container = LinearLayout(breakdownView.getFragmentContext())
         container.orientation = LinearLayout.VERTICAL
@@ -21,7 +21,7 @@ class BreakdownController(private val breakdownView: IBreakdownView) : IBreakdow
             view.text = text
             container.addView(view)
             for((month, count) in monthMap){
-                val view = BreakdownMonthTextView(breakdownView.getFragmentContext())
+                val view = TrendsMonthTextView(breakdownView.getFragmentContext())
                 val text = "${monthToText(month)} - $count messages"
                 view.text = text
                 container.addView(view)

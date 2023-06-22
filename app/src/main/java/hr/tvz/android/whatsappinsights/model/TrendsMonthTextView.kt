@@ -1,12 +1,9 @@
 package hr.tvz.android.whatsappinsights.model
 
 import android.content.Context
-import android.graphics.Typeface
 import android.util.AttributeSet
-import android.widget.TextView
-import androidx.core.view.marginLeft
 
-class BreakdownMonthTextView: androidx.appcompat.widget.AppCompatTextView {
+class TrendsMonthTextView: androidx.appcompat.widget.AppCompatTextView {
     constructor(context: Context) : super(context) {
         init()
     }

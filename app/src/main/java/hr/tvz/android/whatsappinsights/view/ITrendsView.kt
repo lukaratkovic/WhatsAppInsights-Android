@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.View
 import hr.tvz.android.whatsappinsights.databinding.FragmentInsightsBreakdownBinding
 
-interface IBreakdownView {
+interface ITrendsView {
     fun setTimeOfDayValues(map: Map<String,Int>)
     fun addToMonthlyBreakdown(view: View)
     fun getFragmentContext(): Context

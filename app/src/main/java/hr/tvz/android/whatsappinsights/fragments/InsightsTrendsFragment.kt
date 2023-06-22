@@ -6,22 +6,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import hr.tvz.android.whatsappinsights.R
-import hr.tvz.android.whatsappinsights.controller.BreakdownController
+import hr.tvz.android.whatsappinsights.controller.TrendsController
 import hr.tvz.android.whatsappinsights.databinding.FragmentInsightsBreakdownBinding
 import hr.tvz.android.whatsappinsights.model.InsightsGenerator
 import hr.tvz.android.whatsappinsights.model.MessageDatabase
 import hr.tvz.android.whatsappinsights.model.MessageRepository
-import hr.tvz.android.whatsappinsights.view.IBreakdownView
+import hr.tvz.android.whatsappinsights.view.ITrendsView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.math.roundToInt
 
-class InsightsBreakdownFragment : Fragment(), IBreakdownView {
+class InsightsTrendsFragment : Fragment(), ITrendsView {
     private lateinit var binding: FragmentInsightsBreakdownBinding
-    private lateinit var breakdownController: BreakdownController
+    private lateinit var breakdownController: TrendsController
     private val database by lazy { MessageDatabase.getDatabase(this.requireContext()) }
     private val repository by lazy { MessageRepository(database.messageDao()) }
     override fun onCreateView(
@@ -29,7 +28,7 @@ class InsightsBreakdownFragment : Fragment(), IBreakdownView {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentInsightsBreakdownBinding.inflate(inflater, container, false)
-        breakdownController = BreakdownController(this)
+        breakdownController = TrendsController(this)
 
         CoroutineScope(Dispatchers.IO).launch {
             val messages = repository.allMessages()
