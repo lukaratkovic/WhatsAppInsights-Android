@@ -12,4 +12,5 @@
     <string name="load_previous_button_text">Load previous</string>
     <string name="breakdown_daily_header_text">DAILY</string>
     <string name="breakdown_monthly_header_text">MONTHLY</string>
+    <string name="loading_text">Generating insights. Please wait...</string>
 </resources>
