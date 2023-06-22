@@ -6,6 +6,7 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import hr.tvz.android.whatsappinsights.databinding.ActivityInsightsBinding
 import hr.tvz.android.whatsappinsights.fragments.InsightsBreakdownFragment
+import hr.tvz.android.whatsappinsights.fragments.InsightsRecordsFragment
 import hr.tvz.android.whatsappinsights.fragments.InsightsSummaryFragment
 import hr.tvz.android.whatsappinsights.view.IInsightView
 
@@ -28,6 +29,8 @@ class Insights : AppCompatActivity(), IInsightView {
             "Summary")
         viewPagerAdapter.addFragment(InsightsBreakdownFragment(),
             "Breakdown")
+        viewPagerAdapter.addFragment(InsightsRecordsFragment(),
+            "Records")
         viewPager.adapter = viewPagerAdapter
 
         changeTitle(intent.getStringExtra("TITLE") ?: "Unknown title")
