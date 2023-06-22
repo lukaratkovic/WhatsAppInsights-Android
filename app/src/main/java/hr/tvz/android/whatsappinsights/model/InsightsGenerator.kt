@@ -53,7 +53,7 @@ class InsightsGenerator(private val inputMessages: List<Message>) {
             val yearMap = map.getOrPut(year){ mutableMapOf()}
             yearMap[month] = yearMap.getOrDefault(month, 0)+1
 
-            map[year] = yearMap
+            map[year] = yearMap.toSortedMap(reverseOrder())
         }
         return map.toSortedMap(reverseOrder())
     }
