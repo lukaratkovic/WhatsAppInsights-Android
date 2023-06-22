@@ -23,6 +23,6 @@ class HeaderTextView: androidx.appcompat.widget.AppCompatTextView {
         this.textSize = 16f
         this.setTypeface(null, Typeface.BOLD)
         this.setPadding(0, 16, 0, 0)
-        this.setTextColor(ContextCompat.getColor(context, R.color.purple_500))
+        this.setTextColor(ContextCompat.getColor(context, R.color.whatsAppDarkGreen))
     }
 }
