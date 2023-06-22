@@ -1,5 +1,6 @@
 package hr.tvz.android.whatsappinsights.model
 
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.Period
 import java.time.format.DateTimeFormatter
@@ -56,6 +57,17 @@ class InsightsGenerator(private val inputMessages: List<Message>) {
             map[year] = yearMap.toSortedMap(reverseOrder())
         }
         return map.toSortedMap(reverseOrder())
+    }
+
+    fun getTopN(n: Int): Map<LocalDate, Int> {
+        val map = mutableMapOf<LocalDate, Int>()
+        for (message in messages) {
+            val messageDate = message.time.toLocalDate()
+            map.merge(messageDate, 1) { count, _ -> count + 1 }
+        }
+        return map.entries.sortedByDescending { it.value }
+            .take(n)
+            .associate { it.key to it.value }
     }
 }
 
