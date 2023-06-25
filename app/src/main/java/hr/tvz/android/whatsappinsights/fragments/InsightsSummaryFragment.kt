@@ -57,14 +57,12 @@ class InsightsSummaryFragment : Fragment(), ISummaryView {
     }
 
     override fun setSenderBreakdown(map: Map<String, Int>) {
-        val breakdownBuilder = StringBuilder("Messages by sender:\n")
+        val total = map.values.sum()
+        var text = "Messages by sender:\n"
         for((user, count) in map){
-            breakdownBuilder.append(user)
-                .append(" - ")
-                .append(count)
-                .append("\n")
+            text += "$user - $count (${(count.toDouble()/total*100).roundToInt()}%)\n"
         }
-        binding.insightsBreakdownBySender.text = breakdownBuilder.toString()
+        binding.insightsBreakdownBySender.text = text
     }
 
     override fun setAverages(values: Triple<Double, Double, Double>) {
